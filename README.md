@@ -25,4 +25,4 @@ Atualmente, foco meu desenvolvimento no ecossistema **Python, Data Science e Gen
 ### 🤝 Vamos nos conectar?
 Gosto de trocar experiências sobre transição de carreira, tecnologia e inteligência artificial.
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](www.linkedin.com/in/fellipe-proença-tech)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https//:www.linkedin.com/in/fellipe-proença-tech)
