@@ -2,47 +2,48 @@ import os
 import re
 from github import Github
 
+# Conexão
 token = os.getenv('GITHUB_TOKEN')
 g = Github(token)
 repo = g.get_repo(os.getenv('GITHUB_REPOSITORY'))
 
-# 1. Contador
+# 1. Contador (Sempre +1 por execução)
 if not os.path.exists("count.txt"):
     with open("count.txt", "w") as f: f.write("0")
 
 with open("count.txt", "r+") as f:
-    count = int(f.read().strip()) + 1
+    val = f.read().strip()
+    count = int(val) + 1 if val.isdigit() else 1
     f.seek(0)
     f.write(str(count))
     f.truncate()
 
-# 2. Mural
+# 2. Mural de Recados
 issues = repo.get_issues(state='open')
-comments_list = []
-for issue in issues:
-    if "Mensagem para o Mural" in issue.title:
-        comments_list.append(f"<li><b>{issue.user.login}:</b> {issue.body}</li>")
+msgs = [f"<li><b>{i.user.login}:</b> {i.body}</li>" for i in issues if "Mensagem para o Mural" in i.title]
+mural_content = "<ul>" + "\n".join(msgs[:5]) + "</ul>" if msgs else "*Ainda não há comentários. Seja o primeiro!*"
 
-comments_html = "\n".join(comments_list[:5])
-
-# 3. Atualização do README
+# 3. A Cirurgia no README
 with open("README.md", "r", encoding="utf-8") as f:
-    content = f.read()
+    readme = f.read()
 
-# Atualiza contador
-content = re.sub(r'Visitante%20n%C2%BA-\d+-blue', f'Visitante%20n%C2%BA-{count}-blue', content)
+# Atualiza o Badge do Contador
+readme = re.sub(r'Visitante%20n%C2%BA-\d+-blue', f'Visitante%20n%C2%BA-{count}-blue', readme)
 
-# Limpa o mural antigo e coloca o novo (evita duplicatas infinitas)
-marker_start = ""
-marker_end = ""
+# LOCALIZA E SUBSTITUI TUDO ENTRE AS TAGS (A mágica está aqui)
+start_tag = ""
+end_tag = ""
 
-if comments_html:
-    new_mural = f"{marker_start}\n<ul>\n{comments_html}\n</ul>\n{marker_end}"
+# Se as tags existirem, a regex abaixo vai limpar TUDO entre elas e colocar o conteúdo novo
+pattern = f"{re.escape(start_tag)}.*?{re.escape(end_tag)}"
+replacement = f"{start_tag}\n{mural_content}\n{end_tag}"
+
+if re.search(pattern, readme, re.DOTALL):
+    new_readme = re.sub(pattern, replacement, readme, flags=re.DOTALL)
 else:
-    new_mural = f"{marker_start}\n*Ainda não há comentários. Seja o primeiro!*\n{marker_end}"
-
-# Essa regex substitui TUDO entre os marcadores pelo novo bloco
-content = re.sub(f"{marker_start}.*?{marker_end}", new_mural, content, flags=re.DOTALL)
+    # Caso as tags tenham sido corrompidas, ele apenas anexa ao fim para não perder o arquivo
+    new_readme = readme + f"\n\n{replacement}"
 
 with open("README.md", "w", encoding="utf-8") as f:
-    f.write(content)
+    f.write(new_readme)
+    
