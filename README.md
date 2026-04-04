@@ -39,6 +39,8 @@ Gosto de trocar experiências sobre transição de carreira, tecnologia e inteli
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/fellipe-proença-tech)
 
+[![DIO Profile](https://img.shields.io/badge/DIO-Perfil%20na%20DIO-orange?style=for-the-badge&logo=opsgenie&logoColor=white)](https://web.dio.me/users/pfproenca2/)
+
 ---
 
 ### 💬 Mural de Recados
