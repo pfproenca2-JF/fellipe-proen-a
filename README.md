@@ -4,7 +4,7 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/pfproenca2-JF/pfproenca2-JF/main/doom.gif" alt="DOOM Gameplay Loop" width="480">
 </p>
-<p align="center"><i>DOOM, até no README! 😁</i></p>
+<p align="center"><i>DOOM, até no Github! 😁</i></p>
 
 ---
 
